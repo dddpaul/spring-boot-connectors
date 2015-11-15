@@ -38,7 +38,7 @@ public class Application {
             @Autowired
             private SharedService service;
 
-            @RequestMapping
+            @RequestMapping(produces = "text/plain;charset=utf-8")
             @ResponseBody
             public String getMessage(String name) {
                 return "ControllerOne says \"" + service.getMessage(name) + "\"";
@@ -58,13 +58,15 @@ public class Application {
 
         @Controller
         @RequestMapping("/two")
-        static class ControllerOne {
+        static class ControllerTwo {
             @Autowired
             private SharedService service;
 
-            @RequestMapping
+            @RequestMapping(produces = "text/plain;charset=utf-8")
             @ResponseBody
             public String getMessage(String name) {
+                System.out.println(name);
+                System.out.println(service.getMessage(name));
                 return "ControllerTwo says \"" + service.getMessage(name) + "\"";
             }
         }
