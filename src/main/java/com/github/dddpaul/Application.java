@@ -25,7 +25,7 @@ public class Application {
     @Service
     static class SharedService {
         public String getMessage(String name) {
-            return String.format("Hello, %s, i'm shared service", name);
+            return String.format("Hello, %s, I'm shared service", name);
         }
     }
 
