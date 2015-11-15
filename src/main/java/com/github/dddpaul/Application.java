@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -12,22 +13,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class Application {
 
     public static void main(String[] args) {
-        SpringApplicationBuilder parentBuilder = new SpringApplicationBuilder(ApplicationConfiguration.class);
+        SpringApplicationBuilder parentBuilder = new SpringApplicationBuilder(Application.class);
         parentBuilder.child(ServiceOneConfiguration.class).properties("server.port:8081").run(args);
         parentBuilder.child(ServiceTwoConfiguration.class).properties("server.port:8082").run(args);
     }
 
+    @Service
     static class SharedService {
         public String getMessage() {
             return "I'm shared service";
-        }
-    }
-
-    @Configuration
-    static class ApplicationConfiguration {
-        @Bean
-        public SharedService sharedService() {
-            return new SharedService();
         }
     }
 
@@ -50,7 +44,7 @@ public class Application {
     }
 
     @RequestMapping("/one")
-    private static class ControllerOne {
+    static class ControllerOne {
         private SharedService service;
 
         public ControllerOne(SharedService service) {
@@ -65,7 +59,7 @@ public class Application {
     }
 
     @RequestMapping("/two")
-    private static class ControllerTwo {
+    static class ControllerTwo {
         private SharedService service;
 
         public ControllerTwo(SharedService service) {
