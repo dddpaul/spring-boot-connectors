@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
+import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
@@ -22,8 +24,8 @@ public class Application {
 
     @Service
     static class SharedService {
-        public String getMessage() {
-            return "I'm shared service";
+        public String getMessage(String name) {
+            return String.format("Hello, %s, i'm shared service", name);
         }
     }
 
@@ -38,8 +40,8 @@ public class Application {
 
             @RequestMapping
             @ResponseBody
-            public String getMessage() {
-                return "ControllerOne says \"" + service.getMessage() + "\"";
+            public String getMessage(String name) {
+                return "ControllerOne says \"" + service.getMessage(name) + "\"";
             }
         }
     }
@@ -47,6 +49,13 @@ public class Application {
     @Configuration
     @EnableAutoConfiguration
     static class ServiceTwoConfiguration {
+        @Bean
+        EmbeddedServletContainerFactory servletContainer() {
+            TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory();
+            tomcat.setUriEncoding("cp1251");
+            return tomcat;
+        }
+
         @Controller
         @RequestMapping("/two")
         static class ControllerOne {
@@ -55,8 +64,8 @@ public class Application {
 
             @RequestMapping
             @ResponseBody
-            public String getMessage() {
-                return "ControllerTwo says \"" + service.getMessage() + "\"";
+            public String getMessage(String name) {
+                return "ControllerTwo says \"" + service.getMessage(name) + "\"";
             }
         }
     }
