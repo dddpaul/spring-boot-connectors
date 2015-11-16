@@ -65,8 +65,6 @@ public class Application {
             @RequestMapping(produces = "text/plain;charset=utf-8")
             @ResponseBody
             public String getMessage(String name) {
-                System.out.println(name);
-                System.out.println(service.getMessage(name));
                 return "ControllerTwo says \"" + service.getMessage(name) + "\"";
             }
         }
