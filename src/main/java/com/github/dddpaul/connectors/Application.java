@@ -1,4 +1,4 @@
-package com.github.dddpaul;
+package com.github.dddpaul.connectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

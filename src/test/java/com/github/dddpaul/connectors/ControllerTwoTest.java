@@ -1,7 +1,7 @@
-package com.github.dddpaul;
+package com.github.dddpaul.connectors;
 
-import com.github.dddpaul.Application.ServiceOneConfiguration.ControllerOne;
-import com.github.dddpaul.Application.SharedService;
+import com.github.dddpaul.connectors.Application.ServiceTwoConfiguration.ControllerTwo;
+import com.github.dddpaul.connectors.Application.SharedService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,13 +19,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {Application.class})
-public class ControllerOneTest extends Mockito {
+public class ControllerTwoTest extends Mockito {
 
     @Mock
     SharedService service;
 
     @InjectMocks
-    ControllerOne controller;
+    ControllerTwo controller;
 
     MockMvc mockMvc;
 
@@ -38,14 +38,14 @@ public class ControllerOneTest extends Mockito {
     @Test
     public void test1() throws Exception {
         when(service.getMessage("Paul")).thenReturn("Hello, Paul, I'm shared service");
-        mockMvc.perform(get("/one?name=Paul"))
-                .andExpect(content().string("ControllerOne says \"Hello, Paul, I'm shared service\""));
+        mockMvc.perform(get("/two?name=Paul"))
+                .andExpect(content().string("ControllerTwo says \"Hello, Paul, I'm shared service\""));
     }
 
     @Test
     public void test2() throws Exception {
         when(service.getMessage("Павел")).thenReturn("Hello, Павел, I'm shared service");
-        mockMvc.perform(get("/one?name=Павел"))
-                .andExpect(content().string("ControllerOne says \"Hello, Павел, I'm shared service\""));
+        mockMvc.perform(get("/two?name=Павел"))
+                .andExpect(content().string("ControllerTwo says \"Hello, Павел, I'm shared service\""));
     }
 }

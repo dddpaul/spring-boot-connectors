@@ -1,4 +1,4 @@
-package com.github.dddpaul;
+package com.github.dddpaul.connectors;
 
 import org.junit.Assert;
 import org.junit.Test;
